@@ -1,0 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+numpy==1.24.3
+opencv-python-headless
+torch
+torchvision
+ultralytics>=8.2.0
+boto3

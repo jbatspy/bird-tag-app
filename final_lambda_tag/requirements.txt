@@ -1,0 +1,6 @@
+numpy
+opencv-python-headless
+torch
+torchvision
+ultralytics
+boto3

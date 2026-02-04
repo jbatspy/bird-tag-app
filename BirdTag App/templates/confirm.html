@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Email | BirdTag</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #fff, #e0f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .auth-body {
+            padding: 40px 30px;
+        }
+
+        .confirmation-info {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e1e8ff;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .email-display {
+            background: white;
+            border: 1px solid #e1e8ff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-family: monospace;
+            color: #4facfe;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e8ff;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+        }
+
+        .code-input {
+            text-align: center;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer {
+            padding: 0 30px 30px;
+            text-align: center;
+        }
+
+        .resend-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .resend-text {
+            color: #856404;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .resend-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .resend-btn:hover {
+            background: #e67e22;
+        }
+
+        .resend-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .countdown {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e1e8ff, transparent);
+            margin: 25px 0;
+        }
+
+        .help-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .help-link {
+            color: #4facfe;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .help-link:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .submit-btn.loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success Animation */
+        @keyframes success {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .success-animation {
+            animation: success 0.3s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .auth-container {
+                max-width: 100%;
+                border-radius: 15px;
+            }
+
+            .auth-header {
+                padding: 30px 20px;
+            }
+
+            .auth-body {
+                padding: 30px 20px;
+            }
+
+            .auth-footer {
+                padding: 0 20px 25px;
+            }
+
+            .auth-title {
+                font-size: 1.8rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .help-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Error Messages */
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+            text-align: center;
+        }
+
+        .show-error {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Code input styling */
+        .code-input::-webkit-outer-spin-button,
+        .code-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .code-input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-header-content">
+                <div class="logo">📧</div>
+                <h1 class="auth-title">Check Your Email</h1>
+                <p class="auth-subtitle">We've sent a verification code to confirm your email address</p>
+            </div>
+        </div>
+
+        <div class="auth-body">
+            <div class="confirmation-info">
+                <div class="info-icon">✉️</div>
+                <div class="info-title">Verification Code Sent</div>
+                <div class="info-text">
+                    Please check your email inbox and enter the 6-digit verification code we sent to:
+                </div>
+                <div class="email-display">{{ email }}</div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <form method="POST" id="confirmForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-input" value="{{ email }}" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Verification Code</label>
+                    <input type="text" name="code" class="form-input code-input" placeholder="Enter 6-digit code"
+                        required maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Verify Email
+                </button>
+            </form>
+
+            <div class="resend-section">
+                <div class="resend-text">Didn't receive the email?</div>
+                <button class="resend-btn" id="resendBtn" onclick="resendCode()">
+                    Resend Code
+                </button>
+                <div class="countdown" id="countdown"></div>
+            </div>
+        </div>
+
+        <div class="auth-footer">
+            <div class="divider"></div>
+            <div class="help-links">
+                <a href="/login" class="help-link">← Back to Login</a>
+                <a href="/signup" class="help-link">Sign Up Instead</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let resendTimer = 0;
+        let resendInterval = null;
+
+        // Form submission handling
+        document.getElementById('confirmForm').addEventListener('submit', function (e) {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Verifying...';
+        });
+
+        // Code input handling
+        const codeInput = document.querySelector('input[name="code"]');
+
+        // Auto-format code input
+        codeInput.addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            // Auto-submit when 6 digits are entered
+            if (this.value.length === 6) {
+                document.getElementById('confirmForm').submit();
+            }
+        });
+
+        // Auto-focus code input
+        document.addEventListener('DOMContentLoaded', function () {
+            codeInput.focus();
+        });
+
+        // Resend code functionality
+        function resendCode() {
+            const resendBtn = document.getElementById('resendBtn');
+            const countdownEl = document.getElementById('countdown');
+
+            // Disable resend button
+            resendBtn.disabled = true;
+            resendBtn.textContent = 'Sending...';
+
+            // Simulate API call to resend code
+            setTimeout(() => {
+                resendBtn.textContent = 'Code Sent!';
+                startResendTimer();
+
+                // Show success message
+                showSuccess('Verification code resent successfully!');
+            }, 1000);
+        }
+
+        function startResendTimer() {
+            const resendBtn = document.getElementById('resendBtn');
+            const countdownEl = document.getElementById('countdown');
+
+            resendTimer = 60; // 60 seconds
+            resendBtn.disabled = true;
+
+            resendInterval = setInterval(() => {
+                resendTimer--;
+                countdownEl.textContent = `Resend available in ${resendTimer}s`;
+
+                if (resendTimer <= 0) {
+                    clearInterval(resendInterval);
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = 'Resend Code';
+                    countdownEl.textContent = '';
+                }
+            }, 1000);
+        }
+
+        // Error handling
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.classList.add('show-error');
+
+            setTimeout(() => {
+                errorElement.classList.remove('show-error');
+            }, 5000);
+        }
+
+        // Success handling
+        function showSuccess(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.style.background = '#d4edda';
+            errorElement.style.color = '#155724';
+            errorElement.style.borderColor = '#c3e6cb';
+            errorElement.textContent = message;
+            errorElement.classList.add('show-error');
+
+            setTimeout(() => {
+                errorElement.classList.remove('show-error');
+                // Reset styles
+                setTimeout(() => {
+                    errorElement.style.background = '#f8d7da';
+                    errorElement.style.color = '#721c24';
+                    errorElement.style.borderColor = '#f5c6cb';
+                }, 300);
+            }, 3000);
+        }
+
+        // Check for URL parameters to show errors
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error === 'invalid_code') {
+            showError('Invalid verification code. Please check your email and try again.');
+        } else if (error === 'expired_code') {
+            showError('Verification code has expired. Please request a new one.');
+        }
+
+        // Start initial timer
+        document.addEventListener('DOMContentLoaded', function () {
+            startResendTimer();
+        });
+
+        // Paste handling for verification code
+        codeInput.addEventListener('paste', function (e) {
+            e.preventDefault();
+            const paste = (e.clipboardData || window.clipboardData).getData('text');
+            const numericPaste = paste.replace(/[^0-9]/g, '').slice(0, 6);
+            this.value = numericPaste;
+
+            if (numericPaste.length === 6) {
+                document.getElementById('confirmForm').submit();
+            }
+        });
+    </script>
+</body>
+
+</html>
